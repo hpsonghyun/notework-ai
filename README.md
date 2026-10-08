@@ -1,20 +1,37 @@
 # Notework AI
 
-**Ask your vault. See the evidence.**
+<img src="assets/notework-icon.svg" alt="Notework N mark" width="64">
 
-![Notework brand illustration.](assets/notework-promo.png)
+**Local knowledge you can ask. Insights you can trace.**
 
-<!-- NW_FUNDING -->
-<a href="https://buymeacoffee.com/namsonghyun2"><img src="assets/buy-me-a-coffee.svg" alt="Buy Me a Coffee — official brand button" width="185"></a>
+Notework AI brings **local knowledge**, a **knowledge graph**, and **retrieval-augmented generation (RAG)** to Obsidian. Connect an eligible personal AI subscription through official Codex or Claude Code, or bring your own API key. Add optional **Jev** analysis to organize selected notes by topic category, role, hierarchy and candidate relationships.
 
-Optional support does not unlock features.
-<!-- /NW_FUNDING -->
-
-Connect your personal AI subscription or your own API key for answers. Add your Jev API key for advanced knowledge organization: topic categories, note roles, hierarchy levels and candidate relationships. Notework turns selected Obsidian notes into an ontology-style knowledge map you can ask questions about, while the reference notes and retrieval details update for each question.
+Build an **ontology-style knowledge system** from your notes, ask questions, and explore **insights** with the reference notes and retrieval details refreshed for each question. Local retrieval works without Jev; cloud answers and optional Jev analysis use the connection you choose.
 
 **0.4.8 alpha · Desktop only · Obsidian 1.11.4 or later.** Download matching installation files from [Release 0.4.8](https://github.com/hpsonghyun/notework-ai/releases/tag/0.4.8).
 
 [Getting started](docs/getting-started.md) · [Website](https://hpsonghyun.github.io/notework-ai/) · [Connections and costs](docs/provider-boundaries.md) · [Security and privacy](SECURITY.md)
+
+## See the knowledge behind an answer
+
+Ask a question, see its relevant notes highlighted in the graph, and open the original passages behind the answer. Your next question refreshes the reference notes and retrieval details.
+
+![Current desktop knowledge workspace with graph, document and chat. Invented notes and synthetic provider state.](assets/notework-knowledge.png)
+
+## From local knowledge to insights
+
+| Part of the workflow | What it helps you do |
+| --- | --- |
+| **Local knowledge** | Build a local index from the folders and tags you choose. Use local Ollama embeddings for semantic search or explicitly choose keyword retrieval. |
+| **Jev analysis** | Use your own Jev API key at **Build knowledge** to add structured judgments about categories, note roles, abstraction levels and candidate relationships. |
+| **Ontology-style organization** | Give notes useful categories, roles, overview/topic/detail levels and relationship labels, so a collection has a structure you can explore. |
+| **Knowledge graph** | Navigate related note stars, inspect the current question's sources, and open the original notes beside your conversation. |
+| **Augmented RAG** | Retrieve relevant passages locally and optionally extend retrieval with saved AI relationship judgments. Inspect the actual source excerpts and retrieval route used for each question. |
+| **Insights** | Ask your connected AI to compare ideas, follow connections and develop interpretations you can check against your notes. |
+
+Saved relationship judgments can bring a small set of related notes into retrieval beyond the initial matches. Source and scope checks apply before those passages reach the answer model. This is graph-assisted retrieval within Notework; the navigable star positions are a display layout.
+
+Ontology-style organization describes note metadata and relationship judgments. Compare AI interpretations with the original evidence as you develop an insight.
 
 ## Build knowledge you can ask
 
@@ -45,8 +62,6 @@ Ask through your own answer connection, then inspect **Source notes** and **Retr
 - **Keep reusable work.** Save conversations as ordinary vault Markdown notes, optionally save after every answer, and use a local prompt library. Inserting a prompt never sends it automatically.
 
 ![Current desktop chat with source evidence. Invented notes and synthetic provider state; not a live provider result.](assets/notework-chat.png)
-
-![Current desktop knowledge workspace. Invented notes and synthetic provider state; not a live provider result.](assets/notework-knowledge.png)
 
 The interface is English. Your notes and questions can use other languages. Graph categories, hierarchy levels, relationships, and AI answers remain suggestions to inspect against the original material. Star positions are a navigation layout, not a calibrated similarity-distance plot.
 
@@ -86,6 +101,16 @@ Desktop subscription connections discover official CLI installations through PAT
 API keys and retained direct-login credentials use **Obsidian SecretStorage**, which is vault-local and is not an OS keychain or isolation from other installed plugins. Knowledge caches contain excerpts and vectors without encryption. Saved conversation notes may sync with the vault and contain exact messages and source metadata. Prompt notes and the configured conversation archive folder are excluded from retrieval. No developer analytics endpoint or automatic diagnostic-upload feature was found in the reviewed implementation; provider traffic still occurs as described. [Read SECURITY.md before using sensitive notes](SECURITY.md).
 
 ## Development and support
+
+![Notework brand illustration.](assets/notework-promo.png)
+
+If Notework helps you organize your knowledge and inspect the evidence behind an answer, consider giving the repository a star.
+
+<!-- NW_FUNDING -->
+<a href="https://buymeacoffee.com/namsonghyun2"><img src="assets/buy-me-a-coffee.svg" alt="Buy Me a Coffee — official brand button" width="185"></a>
+
+Optional support does not unlock features.
+<!-- /NW_FUNDING -->
 
 One repository contains the implementation, tests, `docs/` website, and shared assets. The project Pages address is [hpsonghyun.github.io/notework-ai](https://hpsonghyun.github.io/notework-ai/). The older personal-site repository is not a second development target. [Repository layout](docs/repository-layout.md) · [Roadmap](docs/roadmap.md) · [Contributing](CONTRIBUTING.md)
 
