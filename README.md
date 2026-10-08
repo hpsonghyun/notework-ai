@@ -12,9 +12,9 @@ Optional support does not unlock features.
 
 Connect your personal AI subscription or your own API key for answers. Add your Jev API key for advanced knowledge organization: topic categories, note roles, hierarchy levels and candidate relationships. Notework turns selected Obsidian notes into an ontology-style knowledge map you can ask questions about, while the reference notes and retrieval details update for each question.
 
-**0.4.8 alpha · Desktop only · Obsidian 1.11.4 or later.** [Install in Obsidian](https://community.obsidian.md/plugins/notework-ai) through the official community listing, or download matching assets from [Release 0.4.8](https://github.com/hpsonghyun/notework-ai/releases/tag/0.4.8).
+**0.4.8 alpha · Desktop only · Obsidian 1.11.4 or later.** Download matching installation files from [Release 0.4.8](https://github.com/hpsonghyun/notework-ai/releases/tag/0.4.8).
 
-[Getting started](docs/getting-started.md) · [Website](https://hpsonghyun.github.io/notework-ai/) · [Connections and costs](docs/provider-boundaries.md) · [Security and privacy](SECURITY.md) · [Community listing](https://community.obsidian.md/plugins/notework-ai)
+[Getting started](docs/getting-started.md) · [Website](https://hpsonghyun.github.io/notework-ai/) · [Connections and costs](docs/provider-boundaries.md) · [Security and privacy](SECURITY.md)
 
 ## Build knowledge you can ask
 
@@ -65,7 +65,7 @@ The plugin code is MIT-licensed, with no plugin access fee. AI services have the
 
 ## Installation and first use
 
-Open the [official community listing](https://community.obsidian.md/plugins/notework-ai) and choose **Add to Obsidian** to install. For manual installation, download the version-matched `main.js`, `manifest.json`, and `styles.css` from [Release 0.4.8](https://github.com/hpsonghyun/notework-ai/releases/tag/0.4.8), then follow these steps:
+For manual installation, download the version-matched `main.js`, `manifest.json`, and `styles.css` from [Release 0.4.8](https://github.com/hpsonghyun/notework-ai/releases/tag/0.4.8), then follow these steps:
 
 1. Use desktop Obsidian 1.11.4 or later. Close Obsidian before replacing an existing plugin build; preserve existing settings and private index files.
 2. Put the three matching files in `<vault>/.obsidian/plugins/notework-ai/`, using your actual Obsidian configuration folder if it differs.
