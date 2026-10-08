@@ -2,9 +2,7 @@
 
 **Ask your vault. See the evidence.**
 
-![Conceptual Notework brand illustration, based on its connected N-node logo. Not a product screenshot.](assets/notework-promo.png)
-
-Conceptual brand illustration, not a product screenshot. [View full size](assets/notework-promo.png).
+![Notework brand illustration.](assets/notework-promo.png)
 
 <!-- NW_FUNDING -->
 <a href="https://buymeacoffee.com/namsonghyun2"><img src="assets/buy-me-a-coffee.svg" alt="Buy Me a Coffee — official brand button" width="185"></a>
@@ -14,9 +12,9 @@ Optional support does not unlock features.
 
 Connect your personal AI subscription or your own API key for answers. Add your Jev API key for advanced knowledge organization: topic categories, note roles, hierarchy levels and candidate relationships. Notework turns selected Obsidian notes into an ontology-style knowledge map you can ask questions about, while the reference notes and retrieval details update for each question.
 
-**0.4.8 alpha · Desktop only · Obsidian 1.11.4 or later.** Use matching assets from [Releases](https://github.com/hpsonghyun/notework-ai/releases) when available. Community Plugins installation requires directory approval; a release asset alone does not establish that approval.
+**0.4.8 alpha · Desktop only · Obsidian 1.11.4 or later.** [Install in Obsidian](https://community.obsidian.md/plugins/notework-ai) through the official community listing, or download matching assets from [Release 0.4.8](https://github.com/hpsonghyun/notework-ai/releases/tag/0.4.8).
 
-[Getting started](docs/getting-started.md) · [Website preview](docs/index.html) · [Connections and costs](docs/provider-boundaries.md) · [Security and privacy](SECURITY.md) · [Community listing draft](docs/community-listing.md)
+[Getting started](docs/getting-started.md) · [Website](https://hpsonghyun.github.io/notework-ai/) · [Connections and costs](docs/provider-boundaries.md) · [Security and privacy](SECURITY.md) · [Community listing](https://community.obsidian.md/plugins/notework-ai)
 
 ## Build knowledge you can ask
 
@@ -67,7 +65,7 @@ The plugin code is MIT-licensed, with no plugin access fee. AI services have the
 
 ## Installation and first use
 
-Use a matching published release, or the prepared assets supplied for authorized prerelease review. Manual installation uses the version-matched `main.js`, `manifest.json`, and `styles.css`. Install through Community Plugins only when an approved listing is available:
+Open the [official community listing](https://community.obsidian.md/plugins/notework-ai) and choose **Add to Obsidian** to install. For manual installation, download the version-matched `main.js`, `manifest.json`, and `styles.css` from [Release 0.4.8](https://github.com/hpsonghyun/notework-ai/releases/tag/0.4.8), then follow these steps:
 
 1. Use desktop Obsidian 1.11.4 or later. Close Obsidian before replacing an existing plugin build; preserve existing settings and private index files.
 2. Put the three matching files in `<vault>/.obsidian/plugins/notework-ai/`, using your actual Obsidian configuration folder if it differs.
@@ -89,7 +87,7 @@ API keys and retained direct-login credentials use **Obsidian SecretStorage**, w
 
 ## Development and support
 
-One repository contains the implementation, tests, `docs/` website, and shared assets. The project Pages address is [hpsonghyun.github.io/notework-ai](https://hpsonghyun.github.io/notework-ai/), when hosting is available. The older personal-site repository is not a second development target. [Repository layout](docs/repository-layout.md) · [Roadmap](docs/roadmap.md) · [Contributing](CONTRIBUTING.md)
+One repository contains the implementation, tests, `docs/` website, and shared assets. The project Pages address is [hpsonghyun.github.io/notework-ai](https://hpsonghyun.github.io/notework-ai/). The older personal-site repository is not a second development target. [Repository layout](docs/repository-layout.md) · [Roadmap](docs/roadmap.md) · [Contributing](CONTRIBUTING.md)
 
 Use Node.js 24.x, matching the current package engine range. Build before running checks that load the compiled host.
 
