@@ -20,6 +20,12 @@ Connect your personal AI subscription or your own API key for answers. Add your 
 
 ## Build knowledge you can ask
 
+Arrange selected notes by topic and by overview, topic and detail layers. Ask from this knowledge, then inspect the reference notes refreshed for each question.
+
+![Conceptual view of knowledge grouped by topic across overview, topic and detail layers.](assets/notework-knowledge-layers.png)
+
+Knowledge arranged by topic and hierarchy, ready to inform your answers. [View original image](assets/notework-knowledge-layers.png).
+
 1. **Connect your AI.** Use an eligible personal subscription through official Codex or Claude Code, or your own API key.
 2. **Build your knowledge.** Add your Jev API key for optional advanced organization of selected notes into categories, roles, hierarchy and candidate relationships. Basic local retrieval works without Jev.
 3. **Ask and inspect.** Each question refreshes its reference notes, retrieved excerpts and graph highlights. Open the original passages and retrieval details behind an answer.
