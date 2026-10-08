@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'none'; img-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Notework production UI fixture</title><link rel="stylesheet" href="/styles.css">
+<style>:root{--text-normal:#272733;--text-muted:#696976;--text-accent:#526db5;--background-primary:#fff;--background-secondary:#f4f5fa;--background-modifier-border:#dfdfe8;--font-interface:'Segoe UI','Malgun Gothic',sans-serif}body{margin:0;background:#fff;font:15px/1.65 var(--font-interface)}button,input,textarea,select{font:inherit}button{border:1px solid #dfdfe8;border-radius:5px;cursor:pointer;background:#fff;color:var(--text-normal)}button:disabled{cursor:default}.fixture-notice{padding:7px 15px;background:#edf1fa;color:#4d5c86;font-size:12px;text-align:center}</style>
+</head><body><div class="fixture-notice">Production UI test · Providers, accounts, and notes are synthetic · No real service requests</div><div id="app"></div>
+<script type="module">
+import {NoteworkUI} from '/src/ui.mjs';
+import {ConnectionController} from '/src/controller.mjs';
+import {selectedFiles} from '/src/vault-search.mjs';
+import {sha256HexSync} from '/src/portable-crypto.mjs';
+
+const notes=[
+  {path:'Research/ontology.md',content:'Ontology organizes concepts and relationships. Synthetic evidence within the selected scope: ALLOWED_ONTOLOGY.'},
+  {path:'Research/Methods/graph.md',content:'Ontology graph methods connect source evidence and retrieval. ALLOWED_GRAPH.'},
+  {path:'Research/private/excluded.md',content:'Ontology material that must be excluded. EXCLUDED_PRIVATE_MARKER.'},
+  {path:'Research-old/sibling.md',content:'Ontology material outside the Research folder boundary. SIBLING_BOUNDARY_MARKER.'},
+  {path:'Private/outside.md',content:'Ontology private material outside the selected scope. OUTSIDE_PRIVATE_MARKER.'},
+  {path:'.obsidian/internal.md',content:'Ontology internal system material. SYSTEM_MARKER.'},
+  {path:'Research/huge.md',content:'Ontology oversized synthetic note. OVERSIZE_MARKER.',size:1_000_001},
+  {path:'Research/unmatched.md',content:'A separate synthetic record, selected but unrelated to the question.'},
+  {path:'root.md',content:'A synthetic note at the vault root.'}
+];
+const files=notes.map(n=>({path:n.path,name:n.path.split('/').pop(),stat:{size:n.size??n.content.length,mtime:1,ctime:1}}));
+const folders=['Research','Research/Methods','Research/Methods/Deep','Research/Methods/Deep/Examples','Research/private','Research-old','Private','Empty'].map(path=>({path,name:path.split('/').pop(),children:[]}));
+const tags=new Map([['Research/ontology.md',['#knowledge/ontology','#review']],['Research/Methods/graph.md',['#knowledge/graph']],['Research/private/excluded.md',['#knowledge/ontology','#private']],['Research-old/sibling.md',['#knowledge/ontology']],['Private/outside.md',['#knowledge/ontology','#private']],['Research/huge.md',[]],['Research/unmatched.md',[]],['root.md',null]]);
+const getTags=file=>tags.get(file.path)??(tags.has(file.path)?null:[]);
+const trace={calls:[],reads:[],opened:[],links:[],configs:[],savedSettings:[],secretSets:[],knowledge:[],archives:[]};
+const memory=new Map();
+const control={behavior:'normal',storageFailure:false,settingsFailure:false,connectBehaviors:{codex:'normal',chatgpt:'normal','claude-code':'normal'},loginDelayMs:5000,loginUrl:'https://claude.com/cai/oauth/authorize?code=true&fixture_nonce=qa-only'};
+const sleep=(ms,signal)=>new Promise((resolve,reject)=>{if(signal?.aborted)return reject(new DOMException('Aborted','AbortError'));const timer=setTimeout(resolve,ms);signal?.addEventListener('abort',()=>{clearTimeout(timer);reject(new DOMException('Aborted','AbortError'));},{once:true});});
+const catalogs={
+  chatgpt:[{id:'gpt-6.1-sol',model:'gpt-6.1-sol',name:'GPT 6.1 Sol (synthetic account)',defaultReasoningEffort:'high',supportedReasoningEfforts:['high']},{id:'tenant-model-zeta-2049',name:'Synthetic account model Zeta'}],
+  'claude-code':[{id:'fixture-host-managed-default',name:'Claude Code managed default model'}],
+  openai:[{id:'api-fixture-openai-unique',name:'Synthetic OpenAI API account model'}],
+  anthropic:[{id:'api-fixture-anthropic-unique',name:'Synthetic Claude API account model'}],
+  ollama:[{id:'local-fixture-installed:latest',name:'Synthetic installed local model'}]
+};
+catalogs.codex=structuredClone(catalogs.chatgpt);
+function provider(mode){return {
+  async connect({signal,onStatus,newAccount=false,reuseSession=false}={}){
+    trace.calls.push({mode,type:'connect',newAccount,reuseSession});
+    if(['openai','anthropic'].includes(mode)&&!memory.has('api-'+mode))throw new Error('Save your API key first.');
+    const behavior=control.connectBehaviors[mode]||'normal';
+    if(behavior==='notFound') {const error=new Error(mode==='codex'?'Official Codex executable not found. Follow the official setup guide and try again.':'Claude Code executable not found. Follow the official setup guide and try again.');error.code='CLI_NOT_FOUND';throw error;}
+    if(behavior==='waiting') {
+      onStatus?.(mode==='codex'?{state:'waiting-login',message:'Complete synthetic ChatGPT sign-in in your browser.',loginUrl:control.codexLoginUrl||'https://auth.openai.com/oauth/authorize?state=synthetic-only'}:mode==='claude-code'?{state:'waiting-login',message:'Waiting for synthetic login in the official Claude login page.',loginUrl:control.loginUrl}:{state:'waiting-for-login',message:'Waiting for synthetic ChatGPT login.'});
+      try {await sleep(control.loginDelayMs,signal);}catch(error){trace.calls.push({mode,type:'connect-aborted',newAccount});setTimeout(()=>onStatus?.({state:'waiting-for-login',message:'LATE_CANCELLED_LOGIN_STATUS',loginUrl:control.loginUrl}),150);throw error;}
+      onStatus?.({state:'connected',message:'Synthetic subscription login confirmed.'});return;
+    }
+    onStatus?.('Checking the synthetic connection.');await sleep(40,signal);
+  },
+  submitLoginCode(code){trace.calls.push({mode,type:'submit-login-code',receivedSyntheticCode:code==='synthetic-code-fixture-only'});return true;},
+  async listModels({signal}={}){trace.calls.push({mode,type:'listModels'});await sleep(30,signal);return structuredClone(catalogs[mode]);},
+  async generate(input,{model,signal,onDelta}={}){const verify=input.startsWith('This is a connection test.');trace.calls.push({mode,type:'generate',model,input,verify});if(!catalogs[mode].some(x=>x.id===model))throw new Error('The model is not in the synthetic account catalog.');if(verify){await sleep(30,signal);return 'Connection confirmed';}if(control.behavior==='quota'){await sleep(40,signal);throw new Error('Subscription usage limit reached. Try again later.');}if(control.behavior==='slow'){onDelta?.('First part of the delayed synthetic answer');try{await sleep(5000,signal);}catch(error){setTimeout(()=>onDelta?.('LATE_ABORTED_DELTA'),150);throw error;}return 'Delayed synthetic answer complete';}await sleep(20,signal);onDelta?.('First part of the synthetic answer');await sleep(220,signal);onDelta?.(' and its continuation.');await sleep(40,signal);return 'First part of the synthetic answer and its continuation.';},
+  async disconnect(){trace.calls.push({mode,type:'disconnect'});return {};}
+};}
+const vault={
+  getMarkdownFiles:()=>files,
+  getFiles:()=>files,
+  getAllLoadedFiles:()=>[...folders,...files],
+  getAbstractFileByPath:path=>[...files,...folders].find(f=>f.path===path)||null,
+  async cachedRead(file){trace.reads.push(file.path);return notes.find(n=>n.path===file.path)?.content||'';}
+};
+const secrets={async set(name,value){if(control.storageFailure)throw new Error('Failed to save credentials.');memory.set(name,value);trace.secretSets.push(name);},async get(name){return memory.get(name);},async delete(name){memory.delete(name);}};
+const jev={async listModels(){trace.calls.push({mode:'jev',type:'listModels'});if(!memory.get('jev'))throw new Error('Save your Jev API key first.');return [{id:'jev-fixture-decision',name:'Synthetic Jev decision model'}];},async verify({model}){trace.calls.push({mode:'jev',type:'verify',model});return true;},async evaluate({model,state,questions,signal}){trace.calls.push({mode:'jev',type:'evaluate',model,state,questions});await sleep(50,signal);const answers={};for(const [id,question]of Object.entries(questions)){if(question.type==='noul')answers[id]={type:'noul',noul:.82};else{const keys=Object.keys(question.criteria);const choice=id==='thread'?(state.goalAnchors[0]?.id||'new_topic'):state.previous?'refine':'unclear';answers[id]={type:'choice',choice,confidence:.8,probabilities:Object.fromEntries(keys.map(key=>[key,key===choice?.8:.2/Math.max(1,keys.length-1)]))};}}return{model,answers};}};
+const query=new URLSearchParams(location.search),isMobile=query.get('mobile')==='1';
+const settings={mode:isMobile?'openai':'codex',scope:{mode:'all',include:[],exclude:[]}};
+const payload=()=>({notes,files,folders,tags:[...tags]});
+async function bridge(method,input={},signal,onProgress){trace.knowledge.push({method});const result=await window.__noteworkQaBridge({method,input,payload:payload(),mode:controller.state.mode,model:controller.state.model});if(signal?.aborted)throw new DOMException('Aborted','AbortError');if(result.error)throw new Error(result.error);if(result.progress)for(const progress of result.progress)onProgress?.(progress);if(result.reads)trace.reads.push(...result.reads);if(result.archives){for(const archived of result.archives){let note=notes.find(note=>note.path===archived.path);if(note)note.content=archived.content;else{notes.push({path:archived.path,content:archived.content});files.push({path:archived.path,name:archived.path.split('/').pop(),stat:{size:archived.content.length,mtime:1,ctime:1},noteworkArchive:true});}trace.archives.push(archived.path);}}return result.value;}
+const knowledgeEngine={...(isMobile?{vaultId:()=>sha256HexSync('synthetic-phone-vault'),importPortableIndex({signal,onProgress,...input}){return bridge('mobile-import',input,signal,onProgress);}}:{}),build({signal,onProgress,llmCall,...input}){return bridge('build',input,signal,onProgress);},retrieve({signal,...input}){return bridge(isMobile?'mobile-retrieve':'retrieve',input,signal);}};
+const embeddingProvider={listModels(){trace.calls.push({mode:'embedding',type:'listModels'});return [{id:'synthetic-embedding:local',name:'Synthetic installed embedding model'}];}};
+const archive={save:input=>bridge('archive-save',input),list:input=>bridge('archive-list',input),load:input=>bridge('archive-load',input)};
+const indexStore={async save(index){trace.knowledge.push({method:'persist-index',indexId:index.id});control.syncedIndex=index;},async load(){return control.syncedIndex||null;},async loadSyncedSource(){return control.desktopIndex||control.syncedIndex||null;}};
+const controller=new ConnectionController({providers:Object.fromEntries(Object.keys(catalogs).map(mode=>[mode,provider(mode)])),...(isMobile?{availableModes:['openai','anthropic'],retrievalStrategy:'lexical',requiresSyncedIndex:true}:{}),jev,secrets,vault,getTags,isArchiveFile:file=>file.noteworkArchive===true,knowledgeEngine,embeddingProvider,indexStore,archive,settings,saveSettings:async value=>{if(control.settingsFailure)throw new Error('Synthetic settings save failed');trace.savedSettings.push(structuredClone(value));}});
+const surface=query.get('surface')||'legacy';
+const uiOptions={surface,graphDiagnostics:true,isMobile,mobileCapabilities:{subscriptions:false,localModels:false,localEmbeddings:false,hardware:false,knowledgeBuild:false,syncedIndexRequired:true},version:'0.4.6',vaultName:'Synthetic research vault',vaultPath:'Synthetic example · Not a real PC path',onFolders:()=>folders.map(f=>f.path),onOpenNote:path=>trace.opened.push(path),onReadNote:async path=>{trace.previewReads??=[];trace.previewReads.push(path);if(control.previewDelayMs)await sleep(control.previewDelayMs);if(control.previewFailure)throw Error('Synthetic preview read failed');if(!controller.scopeFiles().some(file=>file.path===path))throw Error('Synthetic note is outside scope');const note=notes.find(note=>note.path===path);if(!note)throw Error('Synthetic note unavailable');return{path,title:path.split('/').pop().replace(/\.md$/,''),content:note.content,mtime:1};},onLink:url=>trace.links.push(url),onClaudeConfig:value=>{trace.configs.push(structuredClone(value));controller.set({status:'Synthetic Claude installation path applied'});},onHardware:async()=>{trace.hardwareChecks=(trace.hardwareChecks||0)+1;return{ramGiB:16,freeGiB:8,threads:8};},onOpenSettings:view=>trace.opened.push({surface:'settings',view}),onOpenWorkspace:()=>trace.opened.push({surface:'workspace'}),onReturnSidebar:()=>trace.opened.push({surface:'sidebar'})};
+const ui=new NoteworkUI(document.getElementById('app'),controller,uiOptions);
+if(surface!=='legacy')document.getElementById('app').style.height='calc(100vh - 35px)';
+window.fixture={controller,ui,trace,control,catalogs,vault,selectedFiles,memory,tags,getTags,notes,files,folders};
+window.fixture.mount=(surface,target=document.getElementById('app'),extraOptions={})=>new NoteworkUI(target,controller,{...uiOptions,surface,...extraOptions});
+window.fixtureReady=true;
+</script></body></html>
+
+
+
+

@@ -1,0 +1,28 @@
+name: Validate public source
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Check for credentials and private files
+        run: python3 scripts/check-public.py --root . --mode working
+      - name: Verify credential checker
+        run: python3 -m unittest discover -s tests -p 'test_public_check.py'
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build
+      - run: npm test
+      - name: Check compiled release files
+        run: python3 scripts/check-public.py --root dist/notework-ai --mode working

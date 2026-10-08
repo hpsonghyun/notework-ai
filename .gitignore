@@ -1,0 +1,14 @@
+node_modules/
+dist/
+data.json
+knowledge-index.json*
+knowledge-index-mobile.json*
+conversation-index.json
+qa-output/
+__pycache__/
+.obsidian/
+credentials.*
+*.pem
+*.key
+*.log
+.env*

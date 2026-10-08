@@ -1,0 +1,22 @@
+{
+  "name": "notework-ai",
+  "version": "0.4.8",
+  "private": true,
+  "type": "module",
+  "description": "Build structured vault knowledge with Jev, chat with your connected AI, and inspect question-specific sources; mobile is under active development and currently disabled",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node --test --test-isolation=none tests/*.test.mjs",
+    "lint": "eslint \"src/**/*.mjs\" package.json",
+    "check:public": "python scripts/check-public.py --root ."
+  },
+  "devDependencies": {
+    "esbuild": "0.25.12",
+    "eslint": "9.39.4",
+    "eslint-plugin-obsidianmd": "0.4.2"
+  },
+  "license": "MIT"
+}

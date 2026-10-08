@@ -1,0 +1,40 @@
+name: Bug report
+description: Report a reproducible problem without credentials or private notes.
+title: "[Bug] "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: "Do not include API keys, access tokens, authorization URLs, passwords, private notes, or raw authentication logs. Remove them from screenshots before uploading."
+  - type: input
+    id: version
+    attributes:
+      label: Plugin and Obsidian versions
+      placeholder: "Notework AI 0.3.0 / Obsidian 1.14.4"
+    validations:
+      required: true
+  - type: dropdown
+    id: connection
+    attributes:
+      label: Connection type
+      options:
+        - ChatGPT subscription
+        - Claude Code subscription
+        - OpenAI API
+        - Anthropic API
+        - Ollama
+        - Jev
+        - Other
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Use synthetic note names and content.
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true

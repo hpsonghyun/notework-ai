@@ -1,0 +1,12 @@
+import { build } from 'esbuild';
+import { mkdir, copyFile } from 'node:fs/promises';
+import {fileURLToPath} from 'node:url';
+import path from 'node:path';
+import {sourceFingerprint, writeBuildProvenance} from './scripts/deployment-guard.mjs';
+const root = path.dirname(fileURLToPath(import.meta.url));
+process.chdir(root);
+const sourceBeforeBuild = await sourceFingerprint(root);
+await mkdir('dist/notework-ai', {recursive:true});
+await build({entryPoints:['src/main.mjs'],bundle:true,platform:'browser',target:'es2022',format:'cjs',outfile:'dist/notework-ai/main.js',external:['obsidian','electron','node:*'],logLevel:'info'});
+for (const f of ['manifest.json','styles.css']) await copyFile(f, 'dist/notework-ai/'+f);
+await writeBuildProvenance(root, path.join(root, 'dist/notework-ai'), sourceBeforeBuild.digest);

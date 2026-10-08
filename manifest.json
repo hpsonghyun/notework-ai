@@ -1,0 +1,10 @@
+{
+  "id": "notework-ai",
+  "name": "Notework AI",
+  "version": "0.4.8",
+  "minAppVersion": "1.11.4",
+  "description": "Build structured vault knowledge with Jev, chat using your AI subscription or API key, and inspect the sources for each question.",
+  "author": "Notework",
+  "isDesktopOnly": true,
+  "authorUrl": "https://github.com/hpsonghyun"
+}
