@@ -1,6 +1,51 @@
 # Getting started with Notework AI
 
-This guide covers **0.4.8 alpha**, desktop Obsidian **1.11.4 or later**. Use version-matched release assets when available, or assets supplied for authorized prerelease review. Community Plugins installation requires an approved directory listing. See the [manual installation instructions](../README.md#installation-and-first-use).
+This guide covers **0.4.8 alpha**, desktop Obsidian **1.11.4 or later**. Open the [official Community Plugins listing](https://community.obsidian.md/plugins/notework-ai) and choose **Add to Obsidian**, then install and enable **Notework AI**. You can also use the [version-matched manual installation files](../README.md#installation-and-first-use).
+
+## Try your first question with three notes
+
+The shortest first exercise is a small folder, one question, and a check of its original passages. **You need a ready answer connection.** If you have not connected one, complete the answer-connection step in [Connect and build](#connect-and-build) first. **Connected** confirms authentication and catalog readiness, not remaining allowance or a guaranteed answer.
+
+### 1. Copy the sample folder
+
+Copy these three Markdown files into a new folder named `Notework First Question` in your vault. A test vault is also suitable. All names, dates, decisions and tasks are fictional; these files contain no account setup, API keys or real user notes.
+
+| File | What to inspect |
+| --- | --- |
+| [01-pilot-brief.md](examples/first-question/01-pilot-brief.md) | The original pilot plan and original review date. |
+| [02-pilot-decisions.md](examples/first-question/02-pilot-decisions.md) | The later review-date decision and its reason. |
+| [03-pilot-checklist.md](examples/first-question/03-pilot-checklist.md) | Open feedback tasks and the decision still needed. |
+
+Save the file contents as Markdown notes; do not copy the repository's entire `docs` folder into your vault.
+
+### 2. Build only this starting scope
+
+In **Settings → Notework AI → Scope**, select only `Notework First Question` for this walkthrough, check that your existing tag filters and exclusions do not remove it, then choose **Apply scope**.
+
+Open **Build → Build settings**. Set **Retrieval route** to **Keyword search** and **Category, hierarchy and relation analysis** to **Local structure only**, then select **Build knowledge** and wait for local saving to finish. This route needs no Ollama model download or Jev key. The answer model is still a separate, required connection. You can explore embeddings and optional Jev/AI organization later.
+
+### 3. Ask one question
+
+Run **Notework AI: Open Notework**, keep your intended answer model selected, and use **Send question** with this text:
+
+> What is the Harbor pilot review date, why did it change, and what must be ready before the review? Cite the notes and say what is still undecided.
+
+The notes and this prompt are authored examples. No provider answer is bundled or claimed here. Sending a question uses your selected connection; a completed answer also triggers the documented bounded conversation-structure request under the same account's allowance or API billing.
+
+### 4. Open the original passages
+
+Expand **Source notes**, use **Inspect retrieved excerpt**, and open the note-path buttons. Find the named sections below in the original notes and compare them with the response. Use **Retrieval details** to inspect the route, matched chunks, valid sources and applicable filters.
+
+| Check | Original passage to find |
+| --- | --- |
+| Original plan | **01-pilot-brief → Original plan:** `The original review date was 13 November 2026.` |
+| Updated review and reason | **02-pilot-decisions → Review-date decision:** `Move the Harbor pilot review to 16 November 2026.` Feedback closes on 13 November, so the review waits for its completed summary. |
+| Work before review | **03-pilot-checklist → Open tasks:** collect ten feedback forms by 13 November and have Mira send the feedback summary before the review. These are open tasks, not completed work. |
+| Still undecided | **03-pilot-checklist → Not yet decided:** `No date for a wider rollout has been approved.` |
+
+A response should distinguish the old plan from the later decision and pending tasks from completed work. These checks come from reading the supplied notes, not from a successful model run. If a source is missing or a claim conflicts with its original passage, review the scope and build status; rebuild after editing the sample notes. A source link is a place to check, not a correctness certificate.
+
+After this exercise, change the scope to a small collection of your own notes and use the fuller connection, graph and knowledge-organization options below. Review [connections and costs](provider-boundaries.md) and [security](../SECURITY.md) before sending sensitive material.
 
 ## From selected notes to connected knowledge
 

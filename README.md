@@ -2,7 +2,13 @@
 
 <img src="assets/notework-icon.svg" alt="Notework N mark" width="64">
 
-**Local knowledge you can ask. Insights you can trace.**
+**Ask your Obsidian notes and open the original passages behind an answer.**
+
+Choose a small folder, ask one question, and inspect **Source notes** and **Retrieval details** before relying on the response.
+
+[Install in Obsidian](https://community.obsidian.md/plugins/notework-ai) · [Try your first question](docs/getting-started.md#try-your-first-question-with-three-notes) · [한국어 빠른 시작](README.ko.md)
+
+## Local knowledge you can ask. Insights you can trace.
 
 Notework AI brings **local knowledge**, a **knowledge graph**, and **retrieval-augmented generation (RAG)** to Obsidian. Connect an eligible personal AI subscription through official Codex or Claude Code, or bring your own API key. Add optional **Jev** analysis to organize selected notes by topic category, role, hierarchy and candidate relationships.
 
@@ -11,6 +17,20 @@ Build an **ontology-style knowledge system** from your notes, ask questions, and
 **0.4.8 alpha · Desktop only · Obsidian 1.11.4 or later.** Download matching installation files from [Release 0.4.8](https://github.com/hpsonghyun/notework-ai/releases/tag/0.4.8).
 
 [Getting started](docs/getting-started.md) · [Website](https://hpsonghyun.github.io/notework-ai/) · [Connections and costs](docs/provider-boundaries.md) · [Security and privacy](SECURITY.md)
+
+## Try your first question
+
+With an answer connection ready, start with the [three fictional Harbor pilot notes](docs/examples/first-question/). This is an authored walkthrough with passages to check, not a recorded AI result.
+
+1. Copy the three Markdown files into a new vault folder named `Notework First Question`.
+2. In **Settings → Notework AI → Scope**, select that folder and **Apply scope**. In **Build**, choose **Keyword search** and **Local structure only**, then **Build knowledge**. This sample needs no embedding-model download or Jev key; answering still needs your chosen AI connection.
+3. Run **Notework AI: Open Notework** and ask:
+
+   > What is the Harbor pilot review date, why did it change, and what must be ready before the review? Cite the notes and say what is still undecided.
+
+4. Expand **Source notes → Inspect retrieved excerpt**, then open the note paths. Compare the original plan with the later decision: the review moved to **16 November**, feedback and its summary must be ready, and no wider rollout date is approved. Check **Retrieval details** if an expected note is missing.
+
+[Follow the complete first-question walkthrough and source checklist](docs/getting-started.md#try-your-first-question-with-three-notes). Set up an answer connection first if you do not already have one. Subscription allowances, API charges, and automatic conversation-structure usage still apply.
 
 ## See the knowledge behind an answer
 
@@ -80,7 +100,9 @@ The plugin code is MIT-licensed, with no plugin access fee. AI services have the
 
 ## Installation and first use
 
-For manual installation, download the version-matched `main.js`, `manifest.json`, and `styles.css` from [Release 0.4.8](https://github.com/hpsonghyun/notework-ai/releases/tag/0.4.8), then follow these steps:
+Open the [official Community Plugins listing](https://community.obsidian.md/plugins/notework-ai), choose **Add to Obsidian**, then install and enable **Notework AI** in desktop Obsidian.
+
+For manual installation instead, download the version-matched `main.js`, `manifest.json`, and `styles.css` from [Release 0.4.8](https://github.com/hpsonghyun/notework-ai/releases/tag/0.4.8), then follow these steps:
 
 1. Use desktop Obsidian 1.11.4 or later. Close Obsidian before replacing an existing plugin build; preserve existing settings and private index files.
 2. Put the three matching files in `<vault>/.obsidian/plugins/notework-ai/`, using your actual Obsidian configuration folder if it differs.
